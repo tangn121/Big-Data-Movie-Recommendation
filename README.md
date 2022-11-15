@@ -8,3 +8,6 @@ The data is refreshed daily, which provides the opportunity for me to implement 
 2. title.crew.tsv.gz
 3. title.ratings.tsv.gz
 
+# Batch Layer
+### Get data and save it to HDFS
+batch_layer/get_data.sh
