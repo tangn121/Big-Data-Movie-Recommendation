@@ -7,8 +7,8 @@ curl https://datasets.imdbws.com/title.crew.tsv.gz | hdfs dfs -put - /tmp/tangn/
 curl https://datasets.imdbws.com/title.ratings.tsv.gz | hdfs dfs -put - /tmp/tangn/movie/data/rating.tsv.gz
 
 #unzip file
-hdfs dfs -cat /tmp/tangn/movie/data/title.tsv.gz | gunzip | hdfs dfs -put - /tmp/tangn/movie/data/title.tsv
+hdfs dfs -cat /tmp/tangn/movie/data/title.tsv.gz | gunzip | hdfs dfs -put - /tmp/tangn/movie/data/title/title.tsv
 
-hdfs dfs -cat /tmp/tangn/movie/data/crew.tsv.gz | gunzip | hdfs dfs -put - /tmp/tangn/movie/data/crew.tsv
+hdfs dfs -cat /tmp/tangn/movie/data/crew.tsv.gz | gunzip | hdfs dfs -put - /tmp/tangn/movie/data/crew/crew.tsv
 
-hdfs dfs -cat /tmp/tangn/movie/data/rating.tsv.gz | gunzip | hdfs dfs -put - /tmp/tangn/movie/data/rating.tsv
+hdfs dfs -cat /tmp/tangn/movie/data/rating.tsv.gz | gunzip | hdfs dfs -put - /tmp/tangn/movie/data/rating/rating.tsv
