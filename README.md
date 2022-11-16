@@ -12,5 +12,6 @@ The data is refreshed daily, which provides the opportunity for me to implement 
 ### Get data and save it to HDFS
 batch_layer/get_data.sh
 ### Move data into ORC files in Hive
+那一堆hql文件
 
 # Serving layer
