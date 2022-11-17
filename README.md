@@ -28,4 +28,6 @@ batch_layer/get_data.sh
 第一张是IMDb的评分推荐
 第二张是rt的评分推荐
 
-speed layer会只更新rt这张表，everytime new a input, 自动scraping最新的critic review
+关于speed layer：
+1. speed layer会只更新rt这张表，everytime new a input, 自动scraping最新的critic review， 但是评分没法变，it doesn't make sense
+2. speed layer更新imdb里的评分
