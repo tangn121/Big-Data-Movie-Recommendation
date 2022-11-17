@@ -1,5 +1,5 @@
 # Big-Data-Movie-Recommendation
-This project is designed for providing movie recommendations based on IMDb ratings.
+This project is designed for providing movie recommendations based on IMDb and Rotten Tomatoes ratings. 
 # Data 
 All three datasets are downloaded from https://datasets.imdbws.com/. See documentations for the data files in https://www.imdb.com/interfaces/.
 The data is refreshed daily, which provides the opportunity for me to implement a speed layer.
@@ -10,8 +10,11 @@ The data is refreshed daily, which provides the opportunity for me to implement 
 
 # Batch Layer
 ### Get data and save it to HDFS
+#### datasource 1: IMDb
+#### datasource 2: Rotten tomatoes
 batch_layer/get_data.sh
 ### Move data into ORC files in Hive
 那一堆hql文件
 
 # Serving layer
+
