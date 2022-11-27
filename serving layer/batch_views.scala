@@ -42,7 +42,25 @@ val movies = spark.sql("""select m.*, d.director_name, w.writer_name
     left join writer_name w
     on m.movie_id = w.movie_id
     """)
-    
+
+movies.createOrReplaceTempView("movies") 
+
+// build on that, assgin the rank to each movie within its genre
+val rank_not_null = spark.sql("""select * from movies where avg_rating is not null""")
+
+rank_not_null.createOrReplaceTempView("rank_not_null")
+
+val movies_with_rank = spark.sql("""select *, rank() over (partition by genre order by avg_rating desc) as genre_rank
+    from rank_not_null
+    """)
+
+movies_with_rank.createOrReplaceTempView("movies_with_rank")
+
 // save to Hive
 import org.apache.spark.sql.SaveMode
+
+// this table is for only output the info about input movie
 movies.write.mode(SaveMode.Overwrite).saveAsTable("tangn_movies_info")
+
+// this table is for recommending based on IMDb ratings
+movies_with_rank.write.mode(SaveMode.Overwrite).saveAsTable("tangn_movies_with_rank_info")
