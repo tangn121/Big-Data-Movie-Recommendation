@@ -1,5 +1,3 @@
-// for movies
-// create a table in HBase: in HBase shell, type the following
 create 'tangn_movie', 'movie'
 
 drop table if exists tangn_movie;
@@ -24,8 +22,7 @@ select movie_id, primary_title, origin_title,
   director_name, writer_name
 from tangn_movies_info;
 
-// for recommendation
-// create a table in HBase: in HBase shell, type the following
+
 create 'tangn_movie_recom', 'recom'
 
 drop table if exists tangn_movie_recom;
