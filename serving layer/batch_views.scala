@@ -56,6 +56,10 @@ val movies_with_rank = spark.sql("""select *, rank() over (partition by genre or
 
 movies_with_rank.createOrReplaceTempView("movies_with_rank")
 
+val movies_with_rank_10 = spark.sql("""select * from movies_with_rank where genre_rank<=10""")
+
+movies_with_rank_10.createOrReplaceTempView("movies_with_rank_10")
+
 // save to Hive
 import org.apache.spark.sql.SaveMode
 
@@ -63,4 +67,7 @@ import org.apache.spark.sql.SaveMode
 movies.write.mode(SaveMode.Overwrite).saveAsTable("tangn_movies_info")
 
 // this table is for recommending based on IMDb ratings
-movies_with_rank.write.mode(SaveMode.Overwrite).saveAsTable("tangn_movies_with_rank_info")
+// movies_with_rank.write.mode(SaveMode.Overwrite).saveAsTable("tangn_movies_with_rank_info")
+
+movies_with_rank_10.write.mode(SaveMode.Overwrite).saveAsTable("tangn_movies_with_rank_10")
+
