@@ -42,4 +42,4 @@ insert overwrite table tangn_movie_recom
 select genre, primary_title,
   year, avg_rating, num_votes,
   director_name, writer_name, genre_rank
-from tangn_movies_with_rank_info;
+from tangn_movies_with_rank_10;
