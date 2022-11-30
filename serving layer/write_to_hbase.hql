@@ -43,3 +43,25 @@ select genre, primary_title,
   year, avg_rating, num_votes,
   director_name, writer_name, genre_rank
 from tangn_movies_with_rank_10;
+
+create 'tangn_movie_recom_rotten', 'rotten'
+
+drop table if exists tangn_movie_recom_rotten;
+
+create external table tangn_movie_recom_rotten(
+  genre string,
+  title string,
+  year smallint,
+  director string,
+  writer string,
+  rating smallint,
+  rank bigint,
+  review string)
+STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'
+WITH SERDEPROPERTIES ('hbase.columns.mapping' = ':key,rotten:title,rotten:year,rotten:director,rotten:writer,rotten:rating,rotten:rank,rotten:review')
+TBLPROPERTIES ('hbase.table.name' = 'tangn_movie_recom_rotten');
+
+insert overwrite table tangn_movie_recom_rotten
+select genre, primary_title,
+  year, director_name, writer_name, critic_rating, rotten_rank, critic_review
+from tangn_movies_rotten_rank_10;
