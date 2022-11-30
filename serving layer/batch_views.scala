@@ -3,6 +3,7 @@ val name = spark.table("tangn_name")
 val crew = spark.table("tangn_crew")
 val rating = spark.table("tangn_rating")
 val title = spark.table("tangn_title")
+val rotten = spark.table("tangn_rotten")
 
 // join rating to the title, keep only titletype='movie'
 val movie_rating = spark.sql("""select t.titleid as movie_id, t.primarytitle as primary_title, t.originaltitle as origin_title, t.startyear as year, t.genres as genre, r.averagerating as avg_rating, r.numvotes as num_votes
@@ -60,6 +61,19 @@ val movies_with_rank_10 = spark.sql("""select * from movies_with_rank where genr
 
 movies_with_rank_10.createOrReplaceTempView("movies_with_rank_10")
 
+// join rotten tomato data to the movie table
+val movies_with_rotten = spark.sql("""select m.*, r.critic_rating, r.critic_review from movies m right join rotten r on m.primary_title=r.primarytitle and m.year=r.startyear""")
+
+movies_with_rotten.createOrReplaceTempView("movies_with_rotten")
+
+val movies_rotten_rank = spark.sql("""select *, rank() over (partition by genre order by critic_rating desc) as rotten_rank from movies_with_rotten where primary_title is not null""")
+
+movies_rotten_rank.createOrReplaceTempView("movies_rotten_rank")
+
+val movies_rotten_rank_10 = spark.sql("""select * from movies_rotten_rank where rotten_rank<=10""")
+
+movies_rotten_rank_10.createOrReplaceTempView("movies_rotten_rank_10")
+
 // save to Hive
 import org.apache.spark.sql.SaveMode
 
@@ -70,4 +84,7 @@ movies.write.mode(SaveMode.Overwrite).saveAsTable("tangn_movies_info")
 // movies_with_rank.write.mode(SaveMode.Overwrite).saveAsTable("tangn_movies_with_rank_info")
 
 movies_with_rank_10.write.mode(SaveMode.Overwrite).saveAsTable("tangn_movies_with_rank_10")
+
+// this table is for recommending based on rotten tomatoes ratings
+movies_rotten_rank_10.write.mode(SaveMode.Overwrite).saveAsTable("tangn_movies_rotten_rank_10")
 
