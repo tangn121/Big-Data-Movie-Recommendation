@@ -24,11 +24,14 @@ batch_layer/get_data.sh
 因为IMDb是最知名的movie review网站，数据点最多，但是他的评分基本是audience评分，代表大众的口味
 但是rt包含专业评分
 所以我想把大众评分和专业评分结合，做一个电影推荐。
-当user input一个电影名称的时候，output会是两张表
-第一张是IMDb的评分推荐
-第二张是rt的评分推荐
-可能加第三张表：就是单独放这个input电影的imdb信息（包括评分），但是不涉及ranking，因为有ranking的会不全，所以这个只需要展示电影信息就可以了
+当user input一个电影名称的时候，output会是三张表
+第一张是单独放这个input电影的imdb信息（包括评分），但是不涉及ranking，因为有ranking的会不全，所以这个只需要展示电影信息就可以了
+第二张是IMDb的评分推荐
+第三张是rt的评分推荐
 
-关于speed layer：
+# Speed layer：
 1. speed layer会只更新rt这张表，everytime new a input, 自动scraping最新的critic review， 但是评分没法变，it doesn't make sense
-2. speed layer更新第三张表里的评分
+2. speed layer更新第一张表里的评分
+
+Step1: Put raw data into message queue
+Step2: Speed layer reads from Kafka and updates speed view
