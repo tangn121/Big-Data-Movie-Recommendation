@@ -7,11 +7,11 @@ create external table tangn_rotten_csv(
     row format serde 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
 
 WITH SERDEPROPERTIES(
-   "separatorChar" = "\t",
+   "separatorChar" = ",",
    "quoteChar"     = "\""
 )
 STORED AS TEXTFILE
-    location 's3://mpcs53014-tangn/'
+    location 's3://mpcs53014-tangn/rotten/'
 TBLPROPERTIES("skip.header.line.count"="1");
 
 create table tangn_rotten(
@@ -20,7 +20,7 @@ create table tangn_rotten(
     critic_review STRING, 
     primarytitle STRING)
     stored as orc;
+    
 insert overwrite table tangn_rotten
-select *
-from tangn_rotten_csv
-where critic_rating is not null;
+select startyear, critic_rating, critic_review, primarytitle
+from tangn_rotten_csv;
