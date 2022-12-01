@@ -6,7 +6,7 @@ create external table tangn_movie(
   title string,
   year smallint,
   genre string,
-  rating float,
+  rating smallint,
   votes bigint,
   director string,
   writer string)
@@ -29,7 +29,7 @@ create external table tangn_movie_recom(
   genre string,
   title string,
   year smallint,
-  rating float,
+  rating smallint,
   votes bigint,
   director string,
   writer string,
