@@ -15,7 +15,7 @@ val rotten = spark.table("tangn_rotten")
 rotten.createOrReplaceTempView("rotten")
 
 // join rating to the title, keep only titletype='movie'
-val movie_rating = spark.sql("""select t.titleid as movie_id, t.primarytitle as primary_title, t.originaltitle as origin_title, t.startyear as year, t.genres as genre, ifnull(r.averagerating, 0) as avg_rating, ifnull(r.numvotes, 0) as num_votes
+val movie_rating = spark.sql("""select t.titleid as movie_id, t.primarytitle as primary_title, t.originaltitle as origin_title, t.startyear as year, t.genres as genre, r.averagerating as avg_rating, r.numvotes as num_votes
     from title t
     left join rating r
     on t.titleid = r.titleid
@@ -63,7 +63,7 @@ movies.createOrReplaceTempView("movies")
 
 // build on that, assgin the rank to each movie within its genre
 
-val movies_with_rank = spark.sql("""select *, rank() over (partition by genre order by avg_rating desc) as genre_rank
+val movies_with_rank = spark.sql("""select *, case when avg_rating is null then null else rank() over (partition by genre order by avg_rating desc) end as genre_rank
     from movies
     """)
 
