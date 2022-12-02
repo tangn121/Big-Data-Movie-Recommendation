@@ -35,7 +35,7 @@ create external table tangn_movie_recom(
   writer string,
   rank bigint)
 STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'
-WITH SERDEPROPERTIES ('hbase.columns.mapping' = ':key,recom:title,recom:year,recom:rating,recom:votes#b,recom:director,recom:writer,recom:rank#b')
+WITH SERDEPROPERTIES ('hbase.columns.mapping' = ':key,recom:title,recom:year,recom:rating,recom:votes,recom:director,recom:writer,recom:rank')
 TBLPROPERTIES ('hbase.table.name' = 'tangn_movie_recom');
 
 insert overwrite table tangn_movie_recom
@@ -58,7 +58,7 @@ create external table tangn_movie_recom_rotten(
   rank bigint,
   review string)
 STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'
-WITH SERDEPROPERTIES ('hbase.columns.mapping' = ':key,rotten:title,rotten:year,rotten:director,rotten:writer,rotten:rating#b,rotten:rank#b,rotten:review')
+WITH SERDEPROPERTIES ('hbase.columns.mapping' = ':key,rotten:title,rotten:year,rotten:director,rotten:writer,rotten:rating,rotten:rank,rotten:review')
 TBLPROPERTIES ('hbase.table.name' = 'tangn_movie_recom_rotten');
 
 insert overwrite table tangn_movie_recom_rotten
