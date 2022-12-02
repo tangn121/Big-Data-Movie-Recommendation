@@ -14,8 +14,9 @@ title.createOrReplaceTempView("title")
 val rotten = spark.table("tangn_rotten")
 rotten.createOrReplaceTempView("rotten")
 
+
 // join rating to the title, keep only titletype='movie', calculate the total rating scores for better processing streaming data in the future
-val movie_rating = spark.sql("""select t.titleid as movie_id, t.primarytitle as primary_title, t.originaltitle as origin_title, t.startyear as year, t.genres as genre, r.averagerating*r.numvotes as total_ratings, r.numvotes as num_votes
+val movie_rating = spark.sql("""select t.titleid as movie_id, t.primarytitle as primary_title, t.originaltitle as origin_title, t.startyear as year, t.genres as genre, bigint(ifnull(r.averagerating, 0) * ifnull(r.numvotes, 0)) as total_ratings, ifnull(r.numvotes, 0) as num_votes
     from title t
     left join rating r
     on t.titleid = r.titleid
@@ -55,22 +56,24 @@ val movies = spark.sql("""select m.*, d.director_name, w.writer_name
 
 movies.createOrReplaceTempView("movies")
 
-// create a rating table for the use of speed layer
+// create a rating table for the update of speed layer
 val user_ratings = spark.sql("""select primary_title, total_ratings, num_votes
     from movies
     """)
+
 user_ratings.createOrReplaceTempView("user_ratings")
 
 // build on that, assgin the rank to each movie within its genre
 val movies_with_rank = spark.sql("""
-with cte as(select *, total_ratings/num_votes as avg_rating from movies)
-select *, case when avg_rating is null then null else rank() over (partition by genre order by avg_rating desc) end as genre_rank
+with cte as(select *, case when num_votes=0 then 0 else round(total_ratings/num_votes, 1) end as avg_rating from movies)
+select *, rank() over (partition by genre order by avg_rating desc) as genre_rank
 from cte
     """)
 
 movies_with_rank.createOrReplaceTempView("movies_with_rank")
 
-val movies_with_rank_10 = spark.sql("""select * from movies_with_rank where genre_rank<=10""")
+// add constraints
+val movies_with_rank_10 = spark.sql("""select * from movies_with_rank where genre_rank<=10 and num_votes>=20""")
 
 movies_with_rank_10.createOrReplaceTempView("movies_with_rank_10")
 
