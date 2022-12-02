@@ -23,12 +23,6 @@ val movie_rating = spark.sql("""select t.titleid as movie_id, t.primarytitle as 
     """)
 movie_rating.createOrReplaceTempView("movie_rating")
 
-// create a rating table for the use of speed layer
-val user_rating = spark.sql("""select primary_title, total_ratings, num_votes
-    from movie_rating
-    """)
-user_rating.createOrReplaceTempView("user_rating")
-
 // select the first director and first writer in the crew
 val crew_first = spark.sql("""select titleid as movie_id, split(directors, ',')[0] as director, split(writers, ',')[0] as writer
     from crew
@@ -59,7 +53,13 @@ val movies = spark.sql("""select m.*, d.director_name, w.writer_name
     on m.movie_id = w.movie_id
     """)
 
-movies.createOrReplaceTempView("movies") 
+movies.createOrReplaceTempView("movies")
+
+// create a rating table for the use of speed layer
+val user_ratings = spark.sql("""select primary_title, total_ratings, num_votes
+    from movies
+    """)
+user_ratings.createOrReplaceTempView("user_ratings")
 
 // build on that, assgin the rank to each movie within its genre
 val movies_with_rank = spark.sql("""
@@ -100,6 +100,6 @@ movies_with_rank_10.write.mode(SaveMode.Overwrite).saveAsTable("tangn_movies_wit
 movies_rotten_rank_10.write.mode(SaveMode.Overwrite).saveAsTable("tangn_movies_rotten_rank_10")
 
 // this table is for the speed layer
-user_rating.write.mode(SaveMode.Overwrite).saveAsTable("user_rating")
+user_ratings.write.mode(SaveMode.Overwrite).saveAsTable("tangn_user_ratings")
 
 
