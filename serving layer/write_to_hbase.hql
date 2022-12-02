@@ -6,17 +6,17 @@ create external table tangn_movie(
   title string,
   year smallint,
   genre string,
-  rating smallint,
+  ratings bigint,
   votes bigint,
   director string,
   writer string)
 STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'
-WITH SERDEPROPERTIES ('hbase.columns.mapping' = ':key,movie:year,movie:genre,movie:rating,movie:votes,movie:director,movie:writer')
+WITH SERDEPROPERTIES ('hbase.columns.mapping' = ':key,movie:year,movie:genre,movie:ratings#b,movie:votes#b,movie:director,movie:writer')
 TBLPROPERTIES ('hbase.table.name' = 'tangn_movie');
 
 insert overwrite table tangn_movie
 select primary_title,
-  year, genre, avg_rating, num_votes,
+  year, genre, total_ratings, num_votes,
   director_name, writer_name
 from tangn_movies_info;
 
@@ -35,7 +35,7 @@ create external table tangn_movie_recom(
   writer string,
   rank bigint)
 STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'
-WITH SERDEPROPERTIES ('hbase.columns.mapping' = ':key,recom:title,recom:year,recom:rating,recom:votes,recom:director,recom:writer,recom:rank')
+WITH SERDEPROPERTIES ('hbase.columns.mapping' = ':key,recom:title,recom:year,recom:rating,recom:votes#b,recom:director,recom:writer,recom:rank')
 TBLPROPERTIES ('hbase.table.name' = 'tangn_movie_recom');
 
 insert overwrite table tangn_movie_recom
@@ -67,18 +67,17 @@ select genre, primary_title,
 from tangn_movies_rotten_rank_10;
 
 // create a table for speed layer
-create 'tangn_public_ratings', 'user'
+create 'tangn_ratings', 'user'
 
-drop table if exists tangn_public_ratings;
+drop table if exists tangn_ratings;
 
-create external table tangn_public_ratings(
+create external table tangn_ratings(
   title string,
-  rating smallint,
+  ratings bigint,
   votes bigint)
 STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'
-WITH SERDEPROPERTIES ('hbase.columns.mapping' = ':key,user:rating#b,user:votes#b')
-TBLPROPERTIES ('hbase.table.name' = 'tangn_public_ratings');
+WITH SERDEPROPERTIES ('hbase.columns.mapping' = ':key,user:ratings#b,user:votes#b')
+TBLPROPERTIES ('hbase.table.name' = 'tangn_ratings');
 
-insert overwrite table tangn_public_ratings
-select primary_title, avg_rating, num_votes
-from user_rating;
+insert overwrite table tangn_ratings
+select title, ratings, votes from tangn_movie;
