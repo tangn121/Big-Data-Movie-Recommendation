@@ -16,3 +16,8 @@ hdfs dfs -cat /tmp/tangn/movie/data/crew.tsv.gz | gunzip | hdfs dfs -put - /tmp/
 hdfs dfs -cat /tmp/tangn/movie/data/rating.tsv.gz | gunzip | hdfs dfs -put - /tmp/tangn/movie/data/rating/rating.tsv
 
 hdfs dfs -cat /tmp/tangn/movie/data/name.tsv.gz | gunzip | hdfs dfs -put - /tmp/tangn/movie/data/name/name.tsv
+
+
+hdfs dfs -mkdir /tmp/tangn/movie/data/rotten
+
+hdfs dfs –copyFromLocal /Users/ning/Desktop/Uchicago/Autumn2023/BigData/final_project/rotten_tomato_data.csv /tmp/tangn/movie/data/rotten
