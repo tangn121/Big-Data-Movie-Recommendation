@@ -65,19 +65,3 @@ insert overwrite table tangn_movie_recom_rotten
 select genre, primary_title,
   year, director_name, writer_name, critic_rating, rotten_rank, critic_review
 from tangn_movies_rotten_rank_10;
-
-// create a table for speed layer
-create 'tangn_ratings', 'user'
-
-drop table if exists tangn_ratings;
-
-create external table tangn_ratings(
-  title string,
-  ratings bigint,
-  votes bigint)
-STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'
-WITH SERDEPROPERTIES ('hbase.columns.mapping' = ':key,user:ratings#b,user:votes#b')
-TBLPROPERTIES ('hbase.table.name' = 'tangn_ratings');
-
-insert overwrite table tangn_ratings
-select * from tangn_user_ratings;
