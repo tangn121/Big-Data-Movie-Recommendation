@@ -56,13 +56,6 @@ val movies = spark.sql("""select m.*, d.director_name, w.writer_name
 
 movies.createOrReplaceTempView("movies")
 
-// create a rating table for the update of speed layer
-val user_ratings = spark.sql("""select primary_title, total_ratings, num_votes
-    from movies
-    """)
-
-user_ratings.createOrReplaceTempView("user_ratings")
-
 // build on that, assgin the rank to each movie within its genre
 val movies_with_rank = spark.sql("""
 with cte as(select *, case when num_votes=0 then 0 else round(total_ratings/num_votes, 1) end as avg_rating from movies)
@@ -101,8 +94,4 @@ movies_with_rank_10.write.mode(SaveMode.Overwrite).saveAsTable("tangn_movies_wit
 
 // this table is for recommending based on rotten tomatoes ratings
 movies_rotten_rank_10.write.mode(SaveMode.Overwrite).saveAsTable("tangn_movies_rotten_rank_10")
-
-// this table is for the speed layer
-user_ratings.write.mode(SaveMode.Overwrite).saveAsTable("tangn_user_ratings")
-
 
