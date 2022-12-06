@@ -11,7 +11,7 @@ WITH SERDEPROPERTIES(
    "quoteChar"     = "\""
 )
 STORED AS TEXTFILE
-    location 's3://mpcs53014-tangn/rotten/'
+    location '/tmp/tangn/movie/data/rotten'
 TBLPROPERTIES("skip.header.line.count"="1");
 
 create table tangn_rotten(
