@@ -6,31 +6,31 @@ from bs4 import BeautifulSoup
 def scrape_rotten(movies):
     rotten_toma = []
     for idx, value in enumerate(movies):
-    movie = value[0]
-    year = value[1]
-    movie_cleaned = re.sub('[^A-Za-z0-9]+', '_', movie)
-    headers = { "User-Agent" : "web scraper for classroom purposes tangn@uchicago.edu" }
-    # scrape rating
-    base_movie_url = "https://www.rottentomatoes.com/m/" + movie_cleaned + "_" + year
-    results = requests.get(base_movie_url, headers=headers)
-    if results.status_code == 404:
-        base_movie_url = "https://www.rottentomatoes.com/m/" + movie_cleaned
-    responses = requests.get(base_movie_url)
-    if responses.status_code == 200:
-        soup = BeautifulSoup(results.text, "html")
-        for element in soup.find_all("div", {"class": "col mob col-center-right col-full-xs mop-main-column"}):
-            critic_rating = element.find("score-board").get("tomatometerscore")
-            # make sure it has a rating
-            if critic_rating != '':
-            # scrape critic review
-                review_link = base_movie_url + "/reviews"
-                responses = requests.get(review_link, headers=headers)
-                sp = BeautifulSoup(responses.text, "html")
-                if sp.find("div", {"class": "the_review"}) is not None:
-                    critic_review_latest = sp.find("div", {"class": "the_review"}).text
-                else:
-                    critic_review_latest = 'NA'
-                rotten_toma.append((movie, year, critic_rating, critic_review_latest))
+        movie = value[0]
+        year = value[1]
+        movie_cleaned = re.sub('[^A-Za-z0-9]+', '_', movie)
+        headers = { "User-Agent" : "web scraper for classroom purposes tangn@uchicago.edu" }
+        # scrape rating
+        base_movie_url = "https://www.rottentomatoes.com/m/" + movie_cleaned + "_" + year
+        results = requests.get(base_movie_url, headers=headers)
+        if results.status_code == 404:
+            base_movie_url = "https://www.rottentomatoes.com/m/" + movie_cleaned
+        responses = requests.get(base_movie_url)
+        if responses.status_code == 200:
+            soup = BeautifulSoup(results.text, "html")
+            for element in soup.find_all("div", {"class": "col mob col-center-right col-full-xs mop-main-column"}):
+                critic_rating = element.find("score-board").get("tomatometerscore")
+                # make sure it has a rating
+                if critic_rating != '':
+                # scrape critic review
+                    review_link = base_movie_url + "/reviews"
+                    responses = requests.get(review_link, headers=headers)
+                    sp = BeautifulSoup(responses.text, "html")
+                    if sp.find("div", {"class": "the_review"}) is not None:
+                        critic_review_latest = sp.find("div", {"class": "the_review"}).text
+                    else:
+                        critic_review_latest = 'NA'
+                    rotten_toma.append((movie, year, critic_rating, critic_review_latest))
 
     # save as dataframe and clean the text
     rotten_toma_df = pd.DataFrame(rotten_toma)
