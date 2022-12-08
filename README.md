@@ -6,6 +6,11 @@ This project is designed for providing movie recommendations based on both publi
 I have depolyed my web application to loadbalancer webservers. Please follow this link to check my web app.
 http://tangn-lb-1756778830.us-east-1.elb.amazonaws.com/
 
+To run the speed layer:
+* connect with Hadoop
+* `cd tangn/slw/target/`
+* `spark-submit --master local[2] --driver-java-options "-Dlog4j.configuration=file:///home/hadoop/ss.log4j.properties" --class StreamRating uber-speedlayer-1.0-SNAPSHOT.jar b-3.mpcs530142022.7vr20l.c19.kafka.us-east-1.amazonaws.com:9092,b-1.mpcs530142022.7vr20l.c19.kafka.us-east-1.amazonaws.com:9092,b-2.mpcs530142022.7vr20l.c19.kafka.us-east-1.amazonaws.com:9092`
+
 ## Data 
 
 Five datasets are used in this project. 
