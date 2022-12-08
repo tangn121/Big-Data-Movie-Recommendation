@@ -13,7 +13,6 @@ Additionaly, you could also check my web app by:
 * My homepage runs at http://ec2-52-73-126-153.compute-1.amazonaws.com:3019/
 * The `submit-rating.html` runs at http://ec2-52-73-126-153.compute-1.amazonaws.com:3019/submit-rating.html
 
-
 To run the speed layer:
 * Connect to Hadoop
 * `cd tangn/slw/target/`
@@ -43,3 +42,6 @@ The serving layer uses Spark to query tables and creates batch views `batch_view
 ### Speed Layer
 I create a web page named `./sumbit-rating.html`, where users could input the movie they would like to rate and give ratings from 1-10. After submission, it would recompute the new batch view and update the average rating and number of votes of this movie in the homepage. 
 To achieve this, I first create a Kafka topic `tangn-public-rating` and write code in `app.js` to get real-time data into Kafka message queue. I then wrote a streaming program `speedlayer` to process the Kafka report and update the latest rating in the `tangn_movie` HBase table.
+
+![homepage](README_files/homepage.png)
+![submit](README_files/submit-reating.png)
