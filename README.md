@@ -1,5 +1,12 @@
 # Big-Data-Movie-Recommendation
-This project is designed for providing movie recommendations based on IMDb and Rotten Tomatoes ratings. 
+
+This project is designed for providing movie recommendations based on both public ratings (IMDb) and critics ratings (Rotten Tomatoes). My idea is, once a user finds that they like one movie, they may want to keep watching other movies within the same genre. By searching the movie title, they could first get more detailed information about the movie they like (and submit their own movie ratings to update the public ratings of this movie). Based on the genre of the input movie, they could also receive recommendations about what to watch next from both public perspective and critics perspective.
+
+## How to Use
+I have depolyed my web application to loadbalancer webservers. You could click this link to view my app. http://tangn-lb-1756778830.us-east-1.elb.amazonaws.com/
+
+## streaming work
+
 # Data 
 All three datasets are downloaded from https://datasets.imdbws.com/. See documentations for the data files in https://www.imdb.com/interfaces/.
 The data is refreshed daily, which provides the opportunity for me to implement a speed layer.
