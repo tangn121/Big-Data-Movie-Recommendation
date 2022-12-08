@@ -43,5 +43,6 @@ The serving layer uses Spark to query tables and creates batch views `batch_view
 I create a web page named `./sumbit-rating.html`, where users could input the movie they would like to rate and give ratings from 1-10. After submission, it would recompute the new batch view and update the average rating and number of votes of this movie in the homepage. 
 To achieve this, I first create a Kafka topic `tangn-public-rating` and write code in `app.js` to get real-time data into Kafka message queue. I then wrote a streaming program `speedlayer` to process the Kafka report and update the latest rating in the `tangn_movie` HBase table.
 
+## Preview
 ![homepage](README_files/homepage.png)
 ![submit](README_files/submit.png)
