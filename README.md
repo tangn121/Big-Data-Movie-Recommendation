@@ -12,6 +12,8 @@ Additionaly, you could also check my web app by:
 * `node app.js 3019 ec2-54-166-56-39.compute-1.amazonaws.com 8070 b-2.mpcs530142022.7vr20l.c19.kafka.us-east-1.amazonaws.com:9092,b-1.mpcs530142022.7vr20l.c19.kafka.us-east-1.amazonaws.com:9092,b-3.mpcs530142022.7vr20l.c19.kafka.us-east-1.amazonaws.com:9092`
 * My homepage runs at http://ec2-52-73-126-153.compute-1.amazonaws.com:3019/
 * The `submit-rating.html` runs at http://ec2-52-73-126-153.compute-1.amazonaws.com:3019/submit-rating.html
+
+
 To run the speed layer:
 * Connect to Hadoop
 * `cd tangn/slw/target/`
