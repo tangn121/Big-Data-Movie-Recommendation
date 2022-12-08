@@ -44,4 +44,4 @@ I create a web page named `./sumbit-rating.html`, where users could input the mo
 To achieve this, I first create a Kafka topic `tangn-public-rating` and write code in `app.js` to get real-time data into Kafka message queue. I then wrote a streaming program `speedlayer` to process the Kafka report and update the latest rating in the `tangn_movie` HBase table.
 
 ![homepage](README_files/homepage.png)
-![submit](README_files/submit-reating.png)
+![submit](README_files/submit.png)
