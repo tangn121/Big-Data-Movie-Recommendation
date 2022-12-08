@@ -28,17 +28,18 @@ Five datasets are used in this project.
 * name dataset contains names for people ids.
 * rotten tomatoes dataset contains year, critic ratings, and latest critic reviews for titles.
 The first four datasets are downloaded from [IMDb](https://datasets.imdbws.com/). 
-The last dataset is scraped by myself from [Rotten Tomatoes](https://www.rottentomatoes.com/), see scraper code in [scrape_rotten.py](/../scrape_rotten.py). Note that it may take serveral days to finish the scraping process since the database has over 600k movies. I have attached the scraped data in [rotten_tomato_data.csv](rotten_tomato_data.csv).
+The last dataset is scraped by myself from [Rotten Tomatoes](https://www.rottentomatoes.com/), see scraper code in `scrape_rotten.py`. Note that it may take serveral days to finish the scraping process since the database has over 600k movies. I have attached the scraped data in `rotten_tomato_data.csv`.
 
 ## Structure
 
-This project follows the Lambda architecture and mainly implements three layers.
+This project follows the Lambda architecture. Three layers are included.
 
 ### Batch Layer
 The batch layer stores master datasets in HDFS and uses Hive to reencode them as ORC format `hive_crew.hql`, `hive_name.hql`, `hive_rating.hql`, `hive_rotten.hql`, `hive_title.hql`.
 
 ### Serving Layer
-The serving layer uses Spark to query tables in batch layer, creates batch views `batch_views.scala` and write them into HBase `write_to_hbase.hql` for the use of our web application.
+The serving layer uses Spark to query tables and creates batch views `batch_views.scala`, then writes them into HBase `write_to_hbase.hql` for the use of my web application.
 
 ### Speed Layer
-I create a web page named `./sumbit-rating.html`, where users could input the movie they would like to rate and give ratings from 1-10. After submission, I would recompute the new batch view and update the average rating and number of votes of this movie in the homepage. To achieve this, I first create a Kafka topic `tangn-public-rating` and write code in `app.js` to get real-time data into Kafka message queue. I then wrote a streaming program `speedlayer` to process the Kafka report and update the latest rating in the `tangn_movie` HBase table.
+I create a web page named `./sumbit-rating.html`, where users could input the movie they would like to rate and give ratings from 1-10. After submission, it would recompute the new batch view and update the average rating and number of votes of this movie in the homepage. 
+To achieve this, I first create a Kafka topic `tangn-public-rating` and write code in `app.js` to get real-time data into Kafka message queue. I then wrote a streaming program `speedlayer` to process the Kafka report and update the latest rating in the `tangn_movie` HBase table.
