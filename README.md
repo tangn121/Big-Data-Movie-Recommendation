@@ -14,7 +14,7 @@ Five datasets are used in this project.
 * ratings dataset contains the IMDb rating and votes information for titles.
 * name dataset contains names for people ids.
 * rotten tomatoes dataset contains year, critic ratings, and latest critic reviews for titles.
-The first four datasets are downloaded from [IMDb](https://datasets.imdbws.com/). The last dataset is scraped by myself from [Rotten Tomatoes](https://www.rottentomatoes.com/), see scraper code in [scrape_rotten.py](../batch_layer/scrape_rotten.py).
+The first four datasets are downloaded from [IMDb](https://datasets.imdbws.com/). The last dataset is scraped by myself from [Rotten Tomatoes](https://www.rottentomatoes.com/), see scraper code in `scrape_rotten.py`.
 
 ## Structure
 
