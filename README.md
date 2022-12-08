@@ -9,9 +9,12 @@ http://tangn-lb-1756778830.us-east-1.elb.amazonaws.com/
 ## Data 
 
 Five datasets are used in this project. 
-1. 
-All three datasets are downloaded from https://datasets.imdbws.com/. See documentations for the data files in https://www.imdb.com/interfaces/.
-The data is refreshed daily, which provides the opportunity for me to implement a speed layer.
+* title dataset contains information such as year, genre for titles.
+* crew dataset contains the director and writer id for titles.
+* ratings dataset contains the IMDb rating and votes information for titles.
+* name dataset contains names for people ids.
+* rotten tomatoes dataset contains year, critic ratings, and latest critic reviews for titles.
+The first four datasets are downloaded from https://datasets.imdbws.com/. The last dataset is scraped by myself from rotten romatoes website, see scraper code in [scrape_rotten.py](../batch layer/scrape_rotten.py)
 
 1. title.basics.tsv.gz
 2. title.crew.tsv.gz
