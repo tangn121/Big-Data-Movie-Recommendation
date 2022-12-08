@@ -14,13 +14,17 @@ Five datasets are used in this project.
 * ratings dataset contains the IMDb rating and votes information for titles.
 * name dataset contains names for people ids.
 * rotten tomatoes dataset contains year, critic ratings, and latest critic reviews for titles.
-The first four datasets are downloaded from https://datasets.imdbws.com/. The last dataset is scraped by myself from rotten romatoes website, see scraper code in [scrape_rotten.py](../batch layer/scrape_rotten.py)
+The first four datasets are downloaded from [IMDb](https://datasets.imdbws.com/). The last dataset is scraped by myself from [Rotten Tomatoes](https://www.rottentomatoes.com/), see scraper code in [scrape_rotten.py](../batch layer/scrape_rotten.py).
 
-1. title.basics.tsv.gz
-2. title.crew.tsv.gz
-3. title.ratings.tsv.gz
+## Structure
 
-# Batch Layer
+This project follows the Lambda architecture and mainly implements three layers.
+
+### Batch Layer
+The batch layer stores master datasets in HDFS and uses Hive to reencode them as ORC format `hive_crew.hql`, `hive_name.hql`, `hive_rating.hql`, `hive_rotten.hql`, `hive_title.hql`.
+
+### Serving Layer
+
 ### Get data and save it to HDFS
 #### datasource 1: IMDb
 #### datasource 2: Rotten tomatoes
